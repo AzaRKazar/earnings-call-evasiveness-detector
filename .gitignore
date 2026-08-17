@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+models/
+outputs/
+mlruns/
+*.bin
+*.safetensors
+*.ckpt
+
+.env
+*.env.local
+
+.vscode/
+.idea/
