@@ -185,3 +185,29 @@ an inter-rater agreement check.
 Next: find a second rater, have them label
 `data/rater2_blind_sample.csv` against `docs/labeling-rubric.md`
 without seeing anyone else's labels, then compute agreement.
+
+## 2026-08-17 — Inter-rater agreement computed
+
+Second rater completed the blind 25-example sample independently. Merged
+into the main worksheet and computed agreement with `src/compute_agreement.py`:
+**68.0% raw agreement, Cohen's kappa 0.375** ("fair" on the Landis & Koch
+scale, below "moderate"). Reported plainly rather than leading with the
+friendlier raw percentage -- see `docs/README.md` for the full writeup,
+including why kappa is the number that matters here (raw agreement is
+inflated by both raters leaning toward the majority "Direct" class).
+
+The useful finding isn't just the number, though: all 8 disagreements
+were adjacent-category (nobody called something both Direct and
+Evasive), and 7 of 8 clustered specifically at the Direct/Partial
+boundary. That's a real, specific, falsifiable signal about where the
+rubric under-specifies the task -- "did the answer address *every* part
+of a compound question, or just most of it" -- not a generic "labeling
+is subjective" shrug. Documented as a concrete next step for a rubric
+revision, not just a limitations footnote.
+
+Project 2b's core labeling work is now complete: data gathered and
+verified, rubric written, 104 exchanges labeled with a disclosed
+AI-assisted/human-reviewed process, second-rater agreement computed and
+honestly characterized. Next: train/test split and the QLoRA fine-tuning
+script, reusing 2a's Azure ML pipeline -- gated on the same GPU quota
+blocker as 2a until that clears.

@@ -34,9 +34,14 @@ rubber stamp. This is disclosed as the actual methodology rather than
 framed as pure manual labeling — see `docs/build-log.md` for why this
 approach was chosen over labeling from blank.
 
-**Inter-rater agreement:** a second rater independently labeled a
-20-30 example sample using the same rubric. Agreement rate reported in
-[`docs/README.md`](docs/README.md) once labeling is complete.
+**Inter-rater agreement:** a second rater independently labeled a blind
+25-example sample using the same rubric, with no visibility into the
+primary labels. Result: 68.0% raw agreement, **Cohen's kappa 0.375**
+("fair," not "strong" — reported honestly rather than leading with the
+friendlier raw number). All disagreements were adjacent-category, and
+7 of 8 clustered specifically at the Direct/Partial boundary — a real,
+specific finding about where the rubric under-specifies the task, not
+just "labeling is subjective." Full writeup: [`docs/README.md`](docs/README.md).
 
 ## Approach
 
@@ -47,7 +52,11 @@ deliverable, not a shipped product.
 
 ## Status
 
-Just started. See [`docs/build-log.md`](docs/build-log.md) for progress.
+Data gathered and verified, rubric written, all 104 exchanges labeled
+(AI-assisted, human-reviewed), second-rater agreement computed. Next:
+train/test split and QLoRA fine-tuning, gated on the same Azure GPU
+quota blocker as the ticket triage project. See
+[`docs/build-log.md`](docs/build-log.md) for the full progression.
 
 ## Reproduce
 
