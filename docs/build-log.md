@@ -156,3 +156,32 @@ likely exclusion rather than forced into a label).
 
 Next: human review of all 104 proposed labels, then recruit a second
 rater for the 20-30 sample and compute inter-rater agreement.
+
+## 2026-08-17 — Human review of all 104 labels complete
+
+Reviewed every AI-proposed label against the actual exchange text and
+either confirmed or corrected it in the `label` column. Result: 10 of
+104 changed (~90% agreement with the AI first pass) -- each change
+came with a written reason citing the specific text, not just a
+different gut call. Notably one change (id 74, the AIG premium-growth
+positioning question) went the *stricter* direction, Partial -> Evasive,
+which matters as evidence this was a real independent read rather than
+a reflexive lean toward the more generous label.
+
+One disagreement (id 56, Expedia/Andersen "what surprised you" question)
+got pushed back on rather than accepted at face value: the note
+justifying Direct actually described why the answer *doesn't* name a
+surprise (expectations were confirmed, not upended), which argues for
+keeping it at Partial. Left as an open item rather than resolved
+unilaterally -- it's one row out of 104, not worth blocking on.
+
+Built `data/rater2_blind_sample.csv`: 25 rows (`random.seed(42)`,
+reproducible), sampled from the 103 real exchanges (id 78 excluded --
+not a real question), stripped of `ai_proposed_label`, `ai_reasoning`,
+and `label` entirely. This is the file an actual second person labels
+independently. Showing them any prior label would defeat the purpose of
+an inter-rater agreement check.
+
+Next: find a second rater, have them label
+`data/rater2_blind_sample.csv` against `docs/labeling-rubric.md`
+without seeing anyone else's labels, then compute agreement.
