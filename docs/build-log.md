@@ -122,3 +122,37 @@ second rater than only showing easy cases.
 Next: build a clean labeling worksheet from the (now-corrected)
 transcripts, then hand off actual labeling -- that's explicitly the
 user's work per the brief, not something to do on their behalf.
+
+## 2026-08-17 — Labeling methodology: AI first pass, human review
+
+Built `data/labeling_worksheet.csv` from the 8 transcripts via a script
+(`src/build_worksheet.py`), not by hand -- 104 exchanges after merging
+same-question continuation answers into their parent.
+
+The original plan was for the user to hand-label all 104 from blank.
+Partway into that, the user asked Claude to do the labeling instead.
+Worth recording the actual conversation here rather than smoothing it
+over: the initial answer was that doing so outright would undercut the
+"self-labeled, demonstrates dataset-building skill" framing this whole
+project is built on -- if every label were AI-generated with no human
+judgment involved, the README's claims about the project wouldn't be
+true anymore. The user then agreed to a middle path: Claude proposes a
+label and reasoning for every exchange by applying the rubric's decision
+procedure, and the user reviews and confirms or corrects each one,
+rather than starting from a blank cell.
+
+This isn't a euphemism for "AI labeled it and a human clicked accept" --
+it's a real, disclosed methodology (`ai_proposed_label` /
+`ai_reasoning` columns, kept separate from the human-owned `label`
+column) that's honest about what happened at each step, which fits the
+project's whole premise better than either pure-manual labeling (slower,
+not actually different in kind from AI-assisted-and-reviewed) or
+silent AI labeling (would make the README's framing false).
+
+Applied via `src/apply_ai_labels.py` (104 labels, distribution: 53
+Direct, 43 Partial, 7 Evasive, 1 flagged N/A -- exchange 78 is a
+"thanks, guys" acknowledgment, not a real question, and got flagged for
+likely exclusion rather than forced into a label).
+
+Next: human review of all 104 proposed labels, then recruit a second
+rater for the 20-30 sample and compute inter-rater agreement.
