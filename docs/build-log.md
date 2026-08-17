@@ -66,13 +66,59 @@ original tool output and rewrote it in full. Also missed one full
 exchange (Ed Firth, KBW) when transcribing the HSBC extraction into its
 file -- caught during the exchange-count tally and added back.
 
-**Result:** 98 raw exchanges across the 8 transcripts. A handful of
-these are continuation answers (a second executive adding detail to the
-same question rather than a new question) that will get merged with
-their parent exchange during labeling rather than counted twice -- real
-distinct-question count is in the low-to-mid 90s, just under the brief's
-~100-150 target but close enough not to chase further. Per-file counts:
-Wells Fargo 22, Citi 15, Natera 17, AIG 13, Expedia 12, HSBC 10, Republic
-Airways 6, Trade Desk 3.
+**Result:** 108 raw exchanges across the 8 transcripts (corrected --
+see next entry). A handful of these are continuation answers (a second
+executive adding detail to the same question rather than a new
+question) that will get merged with their parent exchange during
+labeling rather than counted twice. Per-file counts: Wells Fargo 22,
+Citi 25, Natera 17, AIG 13, Expedia 12, HSBC 10, Republic Airways 6,
+Trade Desk 3.
 
-Next: write the labeling rubric before labeling any of this.
+## 2026-08-17 — Caught a structural error in the Citi transcript
+
+While building the labeling worksheet, re-reading the Citi file in full
+(rather than trusting the earlier per-exchange count) surfaced a real
+problem: the original extraction had bundled several follow-up questions
+into the same speaker block as the executive's prior answer, with no
+clean separation -- in one case (Ebrahim Poonawala's second question) a
+new analyst question was sitting in the middle of a paragraph with no
+speaker tag at all. The naive count of numbered items (15) was
+undercounting real, distinct, labelable exchanges -- the actual number
+was 25.
+
+Restructured the file by hand, splitting every genuinely distinct
+question into its own exchange while being careful this time to copy
+full verbatim text (not repeat the earlier Wells Fargo truncation
+mistake). Also caught and fixed two smaller slips introduced during that
+rewrite: the CFO's name got mistyped as "Gonzalo Luqueño" instead of the
+source's "Gonzalo Lucchetti" throughout, and one exchange's analyst got
+mislabeled. Both fixed before committing.
+
+**Why this matters for the project, not just as a bug fix:** this is
+the kind of error that would have silently thrown away 10 real,
+usable, hand-verified exchanges -- about 10% of the entire dataset --
+if the exchange count hadn't been double-checked against the actual
+file content rather than trusted from the first pass. Worth stating
+plainly rather than quietly fixing: careful verification caught a real
+problem here, twice in the same project now (see the earlier baseline
+eval bug and the Wells Fargo truncation). That pattern is itself a
+useful thing to be honest about in this project's process writeup.
+
+Caught while building the labeling worksheet -- the labeling rubric
+(below) was already written first, per the project's own rule that the
+rubric has to come before any labeling-adjacent work solidifies.
+
+## 2026-08-17 — Labeling rubric written
+
+Wrote `docs/labeling-rubric.md` before any labeling began: Direct /
+Partial / Evasive with an explicit decision procedure (list
+sub-questions, check each was substantively addressed) rather than pure
+gestalt judgment, edge-case guidance for the patterns that actually show
+up in this data, and 6 worked examples pulled from the real gathered
+transcripts -- including one borderline case shown with its resolution
+rather than a clean one, since that's more useful for calibrating a
+second rater than only showing easy cases.
+
+Next: build a clean labeling worksheet from the (now-corrected)
+transcripts, then hand off actual labeling -- that's explicitly the
+user's work per the brief, not something to do on their behalf.
